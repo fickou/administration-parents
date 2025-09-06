@@ -820,3 +820,208 @@
             border-radius: 8px;
             padding: 1.5rem;
         }
+
+        /*a propos de*/
+        :root {
+            --primary-color: #3b82f6;
+            --secondary-color: #e2e8f0;
+            --success-color: #22c55e;
+            --education-blue: #1e40af;
+            --education-green: #16a34a;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --background: #ffffff;
+            --card-background: #ffffff;
+            --border-color: #e2e8f0;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--background);
+            color: var(--text-primary);
+        }
+
+        .gradient-primary {
+            background: linear-gradient(135deg, var(--primary-color), #6366f1);
+        }
+
+        .gradient-hero {
+            background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+        }
+
+        .shadow-soft {
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+        }
+
+        .shadow-medium {
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        .btn-primary:hover {
+            background: #2563eb;
+            border-color: #2563eb;
+        }
+
+        .btn-outline-primary {
+            color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        .btn-outline-primary:hover {
+            background: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        .navbar {
+            background-color: var(--card-background) !important;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-weight: 700;
+            color: var(--text-primary) !important;
+        }
+
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: var(--primary-color);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .hero-section {
+            background: var(--gradient-hero);
+            padding: 80px 0;
+        }
+
+        .badge-secondary {
+            background-color: var(--secondary-color);
+            color: var(--text-primary);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.875rem;
+            margin-bottom: 2rem;
+        }
+
+        .card {
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            box-shadow: var(--shadow-soft);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            box-shadow: var(--shadow-medium);
+        }
+
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            background: rgba(30, 64, 175, 0.1);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--education-blue);
+        }
+
+        .value-icon {
+            width: 48px;
+            height: 48px;
+            background: rgba(22, 163, 74, 0.1);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--education-green);
+        }
+
+        .team-avatar {
+            width: 64px;
+            height: 64px;
+            background: linear-gradient(135deg, var(--primary-color), #6366f1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.125rem;
+        }
+
+        .back-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .back-link:hover {
+            color: var(--primary-color);
+        }
+
+        .footer {
+            background-color: var(--card-background);
+            border-top: 1px solid var(--border-color);
+            padding: 2rem 0;
+        }
+
+        .cta-section {
+            background: linear-gradient(135deg, var(--primary-color), #6366f1);
+            color: white;
+        }
+
+        .stats-section {
+            background-color: rgba(241, 245, 249, 0.3);
+        }
+
+        .team-section {
+            background-color: rgba(241, 245, 249, 0.3);
+        }
+
+        /* Animation pour les icônes Lucide */
+        [data-lucide] {
+            width: 1em;
+            height: 1em;
+        }
+
+        /* Animation au survol des cartes */
+        .hover-lift {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .hover-lift:hover {
+            transform: translateY(-4px);
+        }
+
+        /* Compteurs animés */
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--text-primary);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .hero-section h1 {
+                font-size: 2.5rem;
+            }
+            
+            .stat-number {
+                font-size: 1.5rem;
+            }
+        }

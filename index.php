@@ -19,7 +19,7 @@
     <nav class="navbar-modern">
         <div class="container">
             <div class="d-flex justify-content-between align-items-center w-100">
-                <a href="index.php" class="navbar-brand">
+                <a href="../index.php" class="navbar-brand">
                     <div class="brand-logo">
                         <i class="fas fa-graduation-cap"></i>
                     </div>

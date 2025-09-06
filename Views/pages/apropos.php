@@ -1,33 +1,240 @@
-<!DOCTYPE html>
+<!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Animated counters
+        function animateCounter(element) {<!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact - EcoleSpace</title>
+    <title>À Propos - EcoleSpace</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-     <link rel="stylesheet" href="../../css/styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.263.1/lucide.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #3b82f6;
+            --secondary-color: #e2e8f0;
+            --success-color: #22c55e;
+            --education-blue: #1e40af;
+            --education-green: #16a34a;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --background: #ffffff;
+            --card-background: #ffffff;
+            --border-color: #e2e8f0;
+        }
 
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--background);
+            color: var(--text-primary);
+        }
+
+        .gradient-primary {
+            background: linear-gradient(135deg, var(--primary-color), #6366f1);
+        }
+
+        .gradient-hero {
+            background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+        }
+
+        .shadow-soft {
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+        }
+
+        .shadow-medium {
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        .btn-primary:hover {
+            background: #2563eb;
+            border-color: #2563eb;
+        }
+
+        .btn-outline-primary {
+            color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        .btn-outline-primary:hover {
+            background: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        .navbar {
+            background-color: var(--card-background) !important;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-weight: 700;
+            color: var(--text-primary) !important;
+        }
+
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: var(--primary-color);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .hero-section {
+            background: var(--gradient-hero);
+            padding: 80px 0;
+        }
+
+        .badge-secondary {
+            background-color: var(--secondary-color);
+            color: var(--text-primary);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.875rem;
+            margin-bottom: 2rem;
+        }
+
+        .card {
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            box-shadow: var(--shadow-soft);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            box-shadow: var(--shadow-medium);
+        }
+
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            background: rgba(30, 64, 175, 0.1);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--education-blue);
+        }
+
+        .value-icon {
+            width: 48px;
+            height: 48px;
+            background: rgba(22, 163, 74, 0.1);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--education-green);
+        }
+
+        .team-avatar {
+            width: 64px;
+            height: 64px;
+            background: linear-gradient(135deg, var(--primary-color), #6366f1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.125rem;
+        }
+
+        .back-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .back-link:hover {
+            color: var(--primary-color);
+        }
+
+        .footer {
+            background-color: var(--card-background);
+            border-top: 1px solid var(--border-color);
+            padding: 2rem 0;
+        }
+
+        .cta-section {
+            background: linear-gradient(135deg, var(--primary-color), #6366f1);
+            color: white;
+        }
+
+        .stats-section {
+            background-color: rgba(241, 245, 249, 0.3);
+        }
+
+        .team-section {
+            background-color: rgba(241, 245, 249, 0.3);
+        }
+
+        /* Animation pour les icônes Lucide */
+        [data-lucide] {
+            width: 1em;
+            height: 1em;
+        }
+
+        /* Animation au survol des cartes */
+        .hover-lift {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .hover-lift:hover {
+            transform: translateY(-4px);
+        }
+
+        /* Compteurs animés */
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--text-primary);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .hero-section h1 {
+                font-size: 2.5rem;
+            }
+            
+            .stat-number {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
 </head>
 <body>
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-light shadow-soft">
         <div class="container">
-            <div class="d-flex align-items-center">
-                <a href="index.html" class="btn btn-link me-3">
-                    <i class="fas fa-arrow-left"></i> Retour
+            <div class="d-flex align-items-center gap-4">
+                <a href="#" class="back-link">
+                    <i data-lucide="arrow-left"></i>
+                    Retour
                 </a>
-                <a class="navbar-brand d-flex align-items-center" href="index.html">
-                    <div class="logo-icon me-2">
-                        <i class="fas fa-graduation-cap"></i>
+                <a class="navbar-brand" href="#">
+                    <div class="logo-icon">
+                        <i data-lucide="graduation-cap"></i>
                     </div>
                     EcoleSpace
                 </a>
             </div>
-            
-            <div class="d-flex">
-                 <a href="login.php" class="btn-connexion">Connexion</a>
-                        <a href="register.php" class="btn-inscription">Inscription</a>
+            <div class="d-flex gap-2">
+                <a href="#" class="btn btn-outline-primary">Connexion</a>
+                <a href="#" class="btn btn-primary">Inscription</a>
             </div>
         </div>
     </nav>
@@ -35,347 +242,345 @@
     <!-- Hero Section -->
     <section class="hero-section text-center">
         <div class="container">
-            <span class="badge badge-secondary mb-4">Contactez-nous</span>
-            <h1 class="display-4 fw-bold mb-4">Nous sommes là pour vous aider</h1>
-            <p class="lead text-muted mx-auto" style="max-width: 600px;">
-                Une question sur EcoleSpace ? Besoin d'une démonstration ? Notre équipe d'experts 
-                est à votre disposition pour vous accompagner dans votre projet.
+            <span class="badge badge-secondary">À propos d'EcoleSpace</span>
+            <h1 class="display-4 fw-bold mb-4">Notre mission : connecter l'éducation</h1>
+            <p class="lead text-secondary mx-auto" style="max-width: 48rem;">
+                Depuis 2020, EcoleSpace révolutionne la communication entre familles et établissements scolaires. 
+                Notre plateforme facilite le suivi pédagogique et simplifie la gestion administrative.
             </p>
         </div>
     </section>
 
-    <!-- Success Message (initially hidden) -->
-    <div id="successAlert" class="alert alert-success alert-dismissible fade" role="alert" style="display: none;">
-        <i class="fas fa-check-circle me-2"></i>
-        <strong>Message envoyé !</strong> Nous vous répondrons dans les plus brefs délais.
-        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-    </div>
-
-    <!-- Contact Form & Info -->
-    <section class="py-5">
+    <!-- Stats Section -->
+    <section class="py-5 stats-section">
         <div class="container">
-            <div class="row g-5">
-                <!-- Contact Form -->
-                <div class="col-lg-6">
-                    <div class="contact-card p-4">
-                        <div class="d-flex align-items-center mb-4">
-                            <i class="fas fa-comment-dots text-primary me-2"></i>
-                            <h3 class="mb-0">Envoyez-nous un message</h3>
+            <div class="row g-4">
+                <div class="col-md-6 col-lg-3">
+                    <div class="card text-center">
+                        <div class="card-body p-4">
+                            <div class="stat-icon mx-auto mb-3">
+                                <i data-lucide="award"></i>
+                            </div>
+                            <div class="stat-number mb-1" data-count="500">0+</div>
+                            <div class="small text-muted">Établissements</div>
                         </div>
-                        
-                        <form id="contactForm">
-                            <div class="row g-3">
-                                <div class="col-md-6">
-                                    <label for="name" class="form-label">Nom complet *</label>
-                                    <input type="text" class="form-control" id="name" name="name" placeholder="Votre nom" required>
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="email" class="form-label">Email *</label>
-                                    <input type="email" class="form-control" id="email" name="email" placeholder="votre@email.com" required>
-                                </div>
-                            </div>
-                            
-                            <div class="mb-3">
-                                <label for="establishment" class="form-label">Établissement</label>
-                                <input type="text" class="form-control" id="establishment" name="establishment" placeholder="Nom de votre école/collège/lycée">
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="subject" class="form-label">Sujet *</label>
-                                <input type="text" class="form-control" id="subject" name="subject" placeholder="Objet de votre message" required>
-                            </div>
-
-                            <div class="mb-4">
-                                <label for="message" class="form-label">Message *</label>
-                                <textarea class="form-control" id="message" name="message" rows="4" placeholder="Décrivez votre demande en détail..." required></textarea>
-                            </div>
-
-                            <button type="submit" class="btn btn-primary w-100">
-                                <i class="fas fa-paper-plane me-2"></i>
-                                Envoyer le message
-                            </button>
-                        </form>
                     </div>
                 </div>
-
-                <!-- Contact Info -->
-                <div class="col-lg-6">
-                    <h2 class="mb-4">Informations de contact</h2>
-                    
-                    <div class="row g-4 mb-5">
-                        <div class="col-sm-6">
-                            <div class="contact-info-card">
-                                <div class="d-flex align-items-start">
-                                    <div class="icon-wrapper icon-blue me-3">
-                                        <i class="fas fa-envelope"></i>
-                                    </div>
-                                    <div>
-                                        <h5 class="mb-1">Email</h5>
-                                        <p class="mb-1">contact@ecolespace.fr</p>
-                                        <small class="text-muted">Réponse sous 24h</small>
-                                    </div>
-                                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="card text-center">
+                        <div class="card-body p-4">
+                            <div class="stat-icon mx-auto mb-3">
+                                <i data-lucide="users"></i>
                             </div>
-                        </div>
-                        
-                        <div class="col-sm-6">
-                            <div class="contact-info-card">
-                                <div class="d-flex align-items-start">
-                                    <div class="icon-wrapper icon-blue me-3">
-                                        <i class="fas fa-phone"></i>
-                                    </div>
-                                    <div>
-                                        <h5 class="mb-1">Téléphone</h5>
-                                        <p class="mb-1">+33 1 23 45 67 89</p>
-                                        <small class="text-muted">Lun-Ven 9h-18h</small>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="col-sm-6">
-                            <div class="contact-info-card">
-                                <div class="d-flex align-items-start">
-                                    <div class="icon-wrapper icon-blue me-3">
-                                        <i class="fas fa-map-marker-alt"></i>
-                                    </div>
-                                    <div>
-                                        <h5 class="mb-1">Adresse</h5>
-                                        <p class="mb-1">42 Rue de l'Innovation</p>
-                                        <small class="text-muted">75001 Paris, France</small>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="col-sm-6">
-                            <div class="contact-info-card">
-                                <div class="d-flex align-items-start">
-                                    <div class="icon-wrapper icon-blue me-3">
-                                        <i class="fas fa-clock"></i>
-                                    </div>
-                                    <div>
-                                        <h5 class="mb-1">Horaires</h5>
-                                        <p class="mb-1">9h00 - 18h00</p>
-                                        <small class="text-muted">Du lundi au vendredi</small>
-                                    </div>
-                                </div>
-                            </div>
+                            <div class="stat-number mb-1" data-count="50">0k+</div>
+                            <div class="small text-muted">Familles connectées</div>
                         </div>
                     </div>
-
-                    <!-- Quick Contact -->
-                    <div class="quick-contact-card">
-                        <h5 class="d-flex align-items-center mb-3">
-                            <i class="fas fa-building me-2"></i>
-                            Vous représentez un établissement ?
-                        </h5>
-                        <p class="mb-3" style="color: rgba(255, 255, 255, 0.9);">
-                            Demandez une démonstration personnalisée et découvrez comment EcoleSpace 
-                            peut transformer la gestion de votre établissement.
-                        </p>
-                        <button class="btn btn-secondary">Demander une démo</button>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="card text-center">
+                        <div class="card-body p-4">
+                            <div class="stat-icon mx-auto mb-3">
+                                <i data-lucide="graduation-cap"></i>
+                            </div>
+                            <div class="stat-number mb-1" data-count="200">0k+</div>
+                            <div class="small text-muted">Élèves suivis</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="card text-center">
+                        <div class="card-body p-4">
+                            <div class="stat-icon mx-auto mb-3">
+                                <i data-lucide="target"></i>
+                            </div>
+                            <div class="stat-number mb-1" data-count="99">0.9%</div>
+                            <div class="small text-muted">Disponibilité</div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- FAQ -->
-    <section class="py-5" style="background-color: rgba(248, 250, 252, 0.3);">
-        <div class="container" style="max-width: 800px;">
+    <!-- Values Section -->
+    <section class="py-5">
+        <div class="container">
             <div class="text-center mb-5">
-                <h2 class="display-5 fw-bold mb-3">Questions fréquentes</h2>
-                <p class="lead text-muted">Retrouvez les réponses aux questions les plus courantes</p>
+                <h2 class="display-6 fw-bold mb-3">Nos valeurs</h2>
+                <p class="lead text-secondary mx-auto" style="max-width: 32rem;">
+                    EcoleSpace s'appuie sur des valeurs fortes pour offrir la meilleure expérience 
+                    à tous les acteurs de la communauté éducative.
+                </p>
             </div>
 
             <div class="row g-4">
-                <div class="col-12">
-                    <div class="faq-card">
-                        <div class="d-flex align-items-start">
-                            <div class="icon-wrapper icon-green me-3" style="width: 32px; height: 32px;">
-                                <i class="fas fa-question-circle" style="font-size: 1rem;"></i>
-                            </div>
-                            <div>
-                                <h5 class="mb-2">Comment démarrer avec EcoleSpace ?</h5>
-                                <p class="text-muted mb-0">Contactez-nous pour une démonstration personnalisée et un accompagnement complet.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="col-12">
-                    <div class="faq-card">
-                        <div class="d-flex align-items-start">
-                            <div class="icon-wrapper icon-green me-3" style="width: 32px; height: 32px;">
-                                <i class="fas fa-question-circle" style="font-size: 1rem;"></i>
-                            </div>
-                            <div>
-                                <h5 class="mb-2">Quels sont les tarifs ?</h5>
-                                <p class="text-muted mb-0">Nos tarifs s'adaptent à la taille de votre établissement. Demandez un devis gratuit.</p>
+                <div class="col-md-6">
+                    <div class="card hover-lift">
+                        <div class="card-body p-4">
+                            <div class="d-flex gap-3">
+                                <div class="value-icon flex-shrink-0">
+                                    <i data-lucide="target"></i>
+                                </div>
+                                <div>
+                                    <h5 class="fw-semibold mb-2">Innovation pédagogique</h5>
+                                    <p class="text-muted mb-0">Nous développons des outils modernes pour répondre aux défis éducatifs d'aujourd'hui.</p>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                
-                <div class="col-12">
-                    <div class="faq-card">
-                        <div class="d-flex align-items-start">
-                            <div class="icon-wrapper icon-green me-3" style="width: 32px; height: 32px;">
-                                <i class="fas fa-question-circle" style="font-size: 1rem;"></i>
-                            </div>
-                            <div>
-                                <h5 class="mb-2">Les données sont-elles sécurisées ?</h5>
-                                <p class="text-muted mb-0">Oui, nous respectons le RGPD et utilisons un chiffrement de niveau bancaire.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="col-12">
-                    <div class="faq-card">
-                        <div class="d-flex align-items-start">
-                            <div class="icon-wrapper icon-green me-3" style="width: 32px; height: 32px;">
-                                <i class="fas fa-question-circle" style="font-size: 1rem;"></i>
-                            </div>
-                            <div>
-                                <h5 class="mb-2">Proposez-vous une formation ?</h5>
-                                <p class="text-muted mb-0">Nous offrons une formation complète à tous les utilisateurs de votre établissement.</p>
+                <div class="col-md-6">
+                    <div class="card hover-lift">
+                        <div class="card-body p-4">
+                            <div class="d-flex gap-3">
+                                <div class="value-icon flex-shrink-0">
+                                    <i data-lucide="check-circle"></i>
+                                </div>
+                                <div>
+                                    <h5 class="fw-semibold mb-2">Facilité d'utilisation</h5>
+                                    <p class="text-muted mb-0">Une interface intuitive accessible à tous, sans formation technique préalable.</p>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                <div class="col-md-6">
+                    <div class="card hover-lift">
+                        <div class="card-body p-4">
+                            <div class="d-flex gap-3">
+                                <div class="value-icon flex-shrink-0">
+                                    <i data-lucide="award"></i>
+                                </div>
+                                <div>
+                                    <h5 class="fw-semibold mb-2">Sécurité des données</h5>
+                                    <p class="text-muted mb-0">Protection maximale des informations personnelles avec conformité RGPD.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card hover-lift">
+                        <div class="card-body p-4">
+                            <div class="d-flex gap-3">
+                                <div class="value-icon flex-shrink-0">
+                                    <i data-lucide="users"></i>
+                                </div>
+                                <div>
+                                    <h5 class="fw-semibold mb-2">Support dédié</h5>
+                                    <p class="text-muted mb-0">Une équipe d'experts disponible pour accompagner votre établissement.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section class="py-5 team-section">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="display-6 fw-bold mb-3">Notre équipe</h2>
+                <p class="lead text-secondary mx-auto" style="max-width: 32rem;">
+                    Des experts passionnés par l'éducation et la technologie, 
+                    unis pour créer des solutions innovantes.
+                </p>
+            </div>
+
+            <div class="row g-4">
+                <div class="col-md-6 col-lg-3">
+                    <div class="card text-center hover-lift">
+                        <div class="card-body p-4">
+                            <div class="team-avatar mx-auto mb-3">SD</div>
+                            <h5 class="fw-semibold mb-1">Sophie Dubois</h5>
+                            <div class="small text-primary fw-medium mb-3">Directrice Générale</div>
+                            <p class="small text-muted">Ex-enseignante, passionnée d'innovation éducative depuis 15 ans.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="card text-center hover-lift">
+                        <div class="card-body p-4">
+                            <div class="team-avatar mx-auto mb-3">ML</div>
+                            <h5 class="fw-semibold mb-1">Marc Laurent</h5>
+                            <div class="small text-primary fw-medium mb-3">Directeur Technique</div>
+                            <p class="small text-muted">Expert en sécurité informatique et développement d'applications éducatives.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="card text-center hover-lift">
+                        <div class="card-body p-4">
+                            <div class="team-avatar mx-auto mb-3">JM</div>
+                            <h5 class="fw-semibold mb-1">Julie Martin</h5>
+                            <div class="small text-primary fw-medium mb-3">Responsable Pédagogique</div>
+                            <p class="small text-muted">Consultante en transformation numérique des établissements scolaires.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="card text-center hover-lift">
+                        <div class="card-body p-4">
+                            <div class="team-avatar mx-auto mb-3">TB</div>
+                            <h5 class="fw-semibold mb-1">Thomas Bernard</h5>
+                            <div class="small text-primary fw-medium mb-3">Responsable Support</div>
+                            <p class="small text-muted">Spécialiste de l'accompagnement et de la formation des utilisateurs.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-5 cta-section text-white">
+        <div class="container text-center">
+            <h2 class="display-6 fw-bold mb-3">Une question ? Contactez-nous !</h2>
+            <p class="lead mb-4 mx-auto opacity-75" style="max-width: 32rem;">
+                Notre équipe est à votre disposition pour répondre à toutes vos questions 
+                et vous accompagner dans votre projet.
+            </p>
+            <div class="d-flex flex-column flex-sm-row gap-3 justify-content-center">
+                <a href="#" class="btn btn-light btn-lg">
+                    <i data-lucide="mail" class="me-2"></i>
+                    Nous contacter
+                </a>
+                <a href="tel:+33123456789" class="btn btn-outline-light btn-lg">
+                    <i data-lucide="phone" class="me-2"></i>
+                    +33 1 23 45 67 89
+                </a>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer>
+    <footer class="footer">
         <div class="container text-center">
-            <div class="d-flex justify-content-center align-items-center mb-3">
-                <div class="logo-icon me-2" style="width: 24px; height: 24px;">
-                    <i class="fas fa-graduation-cap" style="font-size: 1rem;"></i>
+            <div class="d-flex align-items-center justify-content-center gap-2 mb-3">
+                <div class="logo-icon" style="width: 24px; height: 24px;">
+                    <i data-lucide="graduation-cap" style="width: 16px; height: 16px;"></i>
                 </div>
                 <span class="fw-bold">EcoleSpace</span>
             </div>
-            <p class="text-muted small mb-0">© 2024 EcoleSpace. Tous droits réservés.</p>
+            <p class="small text-muted mb-0">
+                &copy; 2024 EcoleSpace. Tous droits réservés.
+            </p>
         </div>
     </footer>
 
+    <!-- Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.263.1/lucide.min.js"></script>
     <script>
-        // Gestion du formulaire de contact
-        document.getElementById('contactForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Récupération des données du formulaire
-            const formData = new FormData(this);
-            
-            // Simulation d'envoi (remplacer par un appel AJAX réel)
-            setTimeout(function() {
-                // Affichage du message de succès
-                const successAlert = document.getElementById('successAlert');
-                successAlert.style.display = 'block';
-                successAlert.classList.add('show');
-                
-                // Scroll vers le message
-                successAlert.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                
-                // Réinitialisation du formulaire
-                document.getElementById('contactForm').reset();
-                
-                // Masquer le message après 5 secondes
-                setTimeout(function() {
-                    successAlert.classList.remove('show');
-                    setTimeout(function() {
-                        successAlert.style.display = 'none';
-                    }, 150);
-                }, 5000);
-            }, 1000);
-        });
+        // Initialize Lucide icons
+        lucide.createIcons();
 
-        // Animation des cartes au scroll
+        // Animated counters
+        function animateCounter(element) {
+            const target = parseInt(element.getAttribute('data-count'));
+            const duration = 2000; // 2 seconds
+            const increment = target / (duration / 16); // 60 FPS
+            let current = 0;
+            
+            const updateCounter = () => {
+                current += increment;
+                if (current < target) {
+                    if (element.textContent.includes('k+')) {
+                        element.textContent = Math.floor(current) + 'k+';
+                    } else if (element.textContent.includes('.9%')) {
+                        element.textContent = Math.floor(current) + '.9%';
+                    } else {
+                        element.textContent = Math.floor(current) + '+';
+                    }
+                    requestAnimationFrame(updateCounter);
+                } else {
+                    // Final values
+                    if (target === 500) {
+                        element.textContent = '500+';
+                    } else if (target === 50) {
+                        element.textContent = '50k+';
+                    } else if (target === 200) {
+                        element.textContent = '200k+';
+                    } else if (target === 99) {
+                        element.textContent = '99.9%';
+                    }
+                }
+            };
+            
+            updateCounter();
+        }
+
+        // Intersection Observer for counter animation
         const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
+            threshold: 0.5,
+            triggerOnce: true
         };
 
-        const observer = new IntersectionObserver(function(entries) {
+        const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
+                    const counters = entry.target.querySelectorAll('[data-count]');
+                    counters.forEach(counter => {
+                        animateCounter(counter);
+                    });
                 }
             });
         }, observerOptions);
 
-        // Appliquer l'animation aux cartes
-        document.addEventListener('DOMContentLoaded', function() {
-            const cards = document.querySelectorAll('.contact-info-card, .faq-card');
-            cards.forEach(card => {
-                card.style.opacity = '0';
-                card.style.transform = 'translateY(20px)';
-                card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-                observer.observe(card);
+        // Observe stats section
+        const statsSection = document.querySelector('.stats-section');
+        if (statsSection) {
+            observer.observe(statsSection);
+        }
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
             });
         });
-    </script>
 
-    <?php
-    // Traitement PHP pour l'envoi du formulaire
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        // Récupération et validation des données
-        $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRING);
-        $email = filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL);
-        $establishment = filter_input(INPUT_POST, 'establishment', FILTER_SANITIZE_STRING);
-        $subject = filter_input(INPUT_POST, 'subject', FILTER_SANITIZE_STRING);
-        $message = filter_input(INPUT_POST, 'message', FILTER_SANITIZE_STRING);
-        
-        $errors = [];
-        
-        // Validation
-        if (empty($name)) $errors[] = "Le nom est requis";
-        if (empty($email) || !$email) $errors[] = "Un email valide est requis";
-        if (empty($subject)) $errors[] = "Le sujet est requis";
-        if (empty($message)) $errors[] = "Le message est requis";
-        
-        if (empty($errors)) {
-            // Préparation de l'email
-            $to = "contact@ecolespace.fr";
-            $email_subject = "Nouveau message de contact: " . $subject;
-            $email_body = "Nom: $name\n";
-            $email_body .= "Email: $email\n";
-            if (!empty($establishment)) {
-                $email_body .= "Établissement: $establishment\n";
-            }
-            $email_body .= "Sujet: $subject\n\n";
-            $email_body .= "Message:\n$message";
-            
-            $headers = "From: $email\r\n";
-            $headers .= "Reply-To: $email\r\n";
-            $headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
-            
-            // Envoi de l'email
-            if (mail($to, $email_subject, $email_body, $headers)) {
-                $success_message = "Message envoyé avec succès !";
-            } else {
-                $error_message = "Erreur lors de l'envoi du message.";
-            }
-        } else {
-            $error_message = implode(", ", $errors);
+        // Add scroll reveal animation
+        function revealOnScroll() {
+            const cards = document.querySelectorAll('.card');
+            cards.forEach(card => {
+                const rect = card.getBoundingClientRect();
+                if (rect.top < window.innerHeight && rect.bottom > 0) {
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }
+            });
         }
-        
-        // Retour JSON pour AJAX
-        if (!empty($_POST['ajax'])) {
-            header('Content-Type: application/json');
-            if (isset($success_message)) {
-                echo json_encode(['success' => true, 'message' => $success_message]);
-            } else {
-                echo json_encode(['success' => false, 'message' => $error_message]);
+
+        // Initialize cards as hidden
+        document.querySelectorAll('.card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        });
+
+        // Reveal cards on scroll
+        window.addEventListener('scroll', revealOnScroll);
+        revealOnScroll(); // Initial check
+
+        // Add parallax effect to hero section
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const parallax = document.querySelector('.hero-section');
+            if (parallax) {
+                const speed = scrolled * 0.5;
+                parallax.style.transform = `translateY(${speed}px)`;
             }
-            exit;
-        }
-    }
-    ?>
+        });
+    </script>
 </body>
 </html>
