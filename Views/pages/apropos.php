@@ -1,8 +1,4 @@
-<!-- Scripts -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-    <script>
-        // Animated counters
-        function animateCounter(element) {<!DOCTYPE html>
+
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
