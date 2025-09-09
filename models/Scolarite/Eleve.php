@@ -155,5 +155,52 @@ class Eleve {
         $stmt->execute([$eleveId]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    //Nombre d'élèves inscrits dans la base
+    public function countAll() {
+        $stmt = $this->db->query("SELECT COUNT(*) as total FROM {$this->table}");
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result['total'] ?? 0;
+    }
+
+    //nombre d'élèves dans une classe donnée
+    public function countByClass($classeId) {
+        $stmt = $this->db->prepare("
+            SELECT COUNT(*) as total 
+            FROM eleves_classes 
+            WHERE classe_id = ? AND date_fin IS NULL
+        ");
+        $stmt->execute([$classeId]);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result['total'] ?? 0;
+    }
+
+    //nombre d'élèves dans une ecole donnée
+    public function countBySchool($ecoleId) {
+        $stmt = $this->db->prepare("
+            SELECT COUNT(DISTINCT e.id) as total 
+            FROM {$this->table} e
+            JOIN eleves_classes ec ON e.id = ec.eleve_id
+            JOIN classes c ON ec.classe_id = c.id
+            WHERE c.ecole_id = ? AND ec.date_fin IS NULL
+        ");
+        $stmt->execute([$ecoleId]);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result['total'] ?? 0;
+    }
+
+    //nombre d'élèves dans une ecole donnée et un niveau donné
+    public function countBySchoolAndLevel($ecoleId, $niveauId) {
+        $stmt = $this->db->prepare("
+            SELECT COUNT(DISTINCT e.id) as total 
+            FROM {$this->table} e
+            JOIN eleves_classes ec ON e.id = ec.eleve_id
+            JOIN classes c ON ec.classe_id = c.id
+            WHERE c.ecole_id = ? AND c.niveau_id = ? AND ec.date_fin IS NULL
+        ");
+        $stmt->execute([$ecoleId, $niveauId]);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result['total'] ?? 0;
+    }
 }
 ?>

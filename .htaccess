@@ -1,10 +1,10 @@
 RewriteEngine On
 RewriteBase /administration-parents/
 
-# Rediriger toutes les requêtes API vers index.php
+# Rediriger toutes les requêtes API vers routes.php
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^api/(.*)$ controllers/AuthController.php [QSA,L]
+RewriteRule ^api/(.*)$ routes.php?url=api/$1 [QSA,L]
 
 # Activer CORS pour les requêtes API
 Header always set Access-Control-Allow-Origin "*"
