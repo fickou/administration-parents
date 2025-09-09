@@ -67,7 +67,6 @@
                         </div>
                     </div>
                 </div>
-                        <div class="laptop"></div>
                         <div class="network-dots">
                             <div class="dot"></div>
                             <div class="dot"></div>
