@@ -13,36 +13,35 @@ class Personne
     public function create($data)
     {
         try {
-            // Champs obligatoires
-            $required = ['prenom', 'nom', 'email', 'type_personne'];
+            // Champs obligatoires prenom, nom, telephone, type_personne'
+            // Si le type_personne est 'eleve' ou parent, le champ 'email' n'est pas obligatoire, sinon il l'est
+            $required = ['prenom', 'nom', 'telephone', 'type_personne'];
+            if (!in_array($data['type_personne'], ['eleve', 'parent'])) {
+                $required[] = 'email';
+            }
             foreach ($required as $field) {
                 if (empty($data[$field])) {
                     throw new \Exception("Le champ $field est requis");
                 }
             }
-
             // Valeurs par défaut
             $defaultData = [
                 'id' => $this->generateUuid(),
-                'actif' => 1,
                 'cree_le' => date('Y-m-d H:i:s'),
-                'modifie_le' => date('Y-m-d H:i:s')
+                'modifie_le' => date('Y-m-d H:i:s'),
+                'actif' => 1
             ];
-
             // Fusionner les données
             $personneData = array_merge($defaultData, $data);
-
             $fields = implode(', ', array_keys($personneData));
             $placeholders = implode(', ', array_fill(0, count($personneData), '?'));
-            
             $sql = "INSERT INTO {$this->table} ($fields) VALUES ($placeholders)";
             $stmt = $this->db->prepare($sql);
-            
             if ($stmt->execute(array_values($personneData))) {
                 return $personneData['id'];
             }
-            
             return false;
+            
             
         } catch (\Exception $e) {
             error_log("Erreur création personne: " . $e->getMessage());

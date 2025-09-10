@@ -36,11 +36,14 @@
             '/api/auth/logout' => 'authLogout',
             '/api/auth/forgot-password' => 'authForgotPassword',
             '/api/auth/reset-password' => 'authResetPassword',
-            '/api/auth/verify-email' => 'authVerifyEmail'
+            '/api/auth/verify-email' => 'authVerifyEmail',
+            '/api/auth/registerEcole' => 'authRegisterEcole'
         ],
         'GET' => [
-            '/api/public/eleves' => 'getNbreEleves',
             '/api/auth/session' => 'authSession',
+            '/api/public/eleves' => 'getNbreEleves',
+            '/api/public/ecoles' => 'getNbreEcoles',
+            '/api/public/familles' => 'getNbreFamillesConnectees'
         ]
     ];
 

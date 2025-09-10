@@ -5,83 +5,116 @@ require_once ROOT_PATH . '/config/Database.php';
 require_once ROOT_PATH . '/models/Commun/Personne.php';
 require_once ROOT_PATH . '/models/Commun/Token.php';
 require_once ROOT_PATH . '/models/Administration/Utilisateur.php';
+require_once ROOT_PATH . '/models/Scolarite/Eleve.php';
+require_once ROOT_PATH . '/models/Scolarite/Ecole.php';
+require_once ROOT_PATH . '/models/Scolarite/TuteurEleve.php';
 
 
 // Handlers des routes
 function authRegister() {
+   
     $data = json_decode(file_get_contents("php://input"), true);
-    
+
     if (!$data) {
         http_response_code(400);
         echo json_encode(["message" => "Données JSON invalides"]);
         return;
     }
-
-    $required = ['nom', 'email', 'telephone', 'motDePasse'];
-    foreach ($required as $field) {
-        if (empty($data[$field])) {
+    if (empty($data['parent']) || empty($data['eleve'])) {
+        http_response_code(400);
+        echo json_encode(["message" => "Les données du parent et de l'élève sont requises"]);
+        return;
+    }
+    $parentData = $data['parent'];
+    $eleveData = $data['eleve'];
+    $requiredFields = ['prenom', 'nom', 'telephone', 'type_personne'];
+    foreach ($requiredFields as $field) {
+        if (empty($parentData[$field]) || empty($eleveData[$field])) {
             http_response_code(400);
-            echo json_encode(["message" => "Le champ $field est requis"]);
+            echo json_encode(["message" => "Le champ $field est requis pour le parent et l'élève"]);
             return;
         }
     }
-
-    // Validation de l'email
-    if (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
+    if (!filter_var($parentData['email'], FILTER_VALIDATE_EMAIL) || !filter_var($eleveData['email'], FILTER_VALIDATE_EMAIL)) {
         http_response_code(400);
-        echo json_encode(["message" => "Format d'email invalide"]);
+        echo json_encode(["message" => "Format d'email invalide pour le parent ou l'élève"]);
         return;
     }
-
-    // Connexion à la base de données
     $database = new Database();
     $db = $database->getConnexion();
-    
     $personneModel = new Personne($db);
-    
-    // Vérifier si l'email existe déjà
-    if ($personneModel->getByEmail($data['email'])) {
+    $utilisateurModel = new Utilisateur($db);
+    $eleveModel = new Eleve($db);
+    $tuteurEleveModel = new TuteurEleve($db);
+
+    // Vérifier si les emails existent déjà
+    if ($personneModel->getByEmail($parentData['email'])) {
         http_response_code(409);
-        echo json_encode(["message" => "Cet email est déjà utilisé"]);
+        echo json_encode(["message" => "Cet email de parent est déjà utilisé"]);
+        return;
+    }
+    if ($personneModel->getByEmail($eleveData['email'])) {
+        http_response_code(409);
+        echo json_encode(["message" => "Cet email d'élève est déjà utilisé"]);
         return;
     }
 
     try {
-        // Créer la personne
-        $personneData = [
-            'prenom' => $data['prenom'] ?? '',
-            'nom' => $data['nom'],
-            'email' => $data['email'],
-            'telephone' => $data['telephone'],
-            'date_naissance' => $data['date_naissance'] ?? null,
-            'sexe' => $data['sexe'] ?? null,
-            'type_personne' => 'parent',
-            'actif' => 1
-        ];
-
-        $personneId = $personneModel->create($personneData);
-
-        if (!$personneId) {
-            throw new Exception("Erreur lors de la création de la personne");
+        // Créer la personne parent
+        $parentId = $personneModel->create($parentData);
+        if (!$parentId) {
+            throw new Exception("Erreur lors de la création de la personne parent");
         }
-
-        // Créer l'utilisateur
-        $utilisateurModel = new Utilisateur($db);
-        $hashedPassword = password_hash($data['motDePasse'], PASSWORD_DEFAULT);
-        
+        // Créer l'utilisateur parent avec un mot de passe temporaire
+        $tempPassword = bin2hex(random_bytes(4)); // Mot de passe temporaire de 8 caractères
+        $hashedPassword = password_hash($tempPassword, PASSWORD_DEFAULT);
         $utilisateurData = [
-            'personne_id' => $personneId,
+            'personne_id' => $parentId,
             'mot_de_passe' => $hashedPassword,
-            'role' => 'parent'
+            'role' => 'parent',
+            'est_actif' => 1
         ];
-
         $userId = $utilisateurModel->create($utilisateurData);
-
+        if (!$userId) {
+            throw new Exception("Erreur lors de la création de l'utilisateur parent");
+        }
+        // Créer la personne élève
+        $eleveId = $personneModel->create($eleveData);
+        if (!$eleveId) {
+            throw new Exception("Erreur lors de la création de la personne élève");
+        }
+        // Créer l'élève
+        $eleveExtraData = [
+            'code_eleve' => $eleveData['code_eleve'] ?? null,
+            'numero_matricule' => $eleveData['numero_matricule'] ?? null,
+            'date_inscription' => $eleveData['date_inscription'] ?? date('Y-m-d'),
+            'nationalite' => $eleveData['nationalite'] ?? null
+        ];
+        if (!$eleveModel->create(array_merge(['id' => $eleveId], $eleveExtraData))) {
+            throw new Exception("Erreur lors de la création de l'élève");
+        }
+        // Lier le parent et l'élève
+        $lienData = [
+            'eleve_id' => $eleveId,
+            'responsable_id' => $parentId,
+            'lien_parental' => 'parent',
+            'est_principal' => 1
+        ];
+        if (!$tuteurEleveModel->create($lienData)) {
+            throw new Exception("Erreur lors de la création du lien tuteur-élève");
+        }
         http_response_code(201);
         echo json_encode([
-            "message" => "Compte créé avec succès",
-            "userId" => $userId,
-            "personneId" => $personneId
+            "message" => "Inscription réussie",
+            "parent" => [
+                "id" => $parentId,
+                "email" => $parentData['email'],
+                "tempPassword" => $tempPassword // Retourner le mot de passe temporaire
+            ],
+            "eleve" => [
+                "id" => $eleveId,
+                "email" => $eleveData['email']
+            ]
         ]);
 
     } catch (Exception $e) {
@@ -234,5 +267,105 @@ function authSession() {
     ]);
 }
 
+function authRegisterEcole() {
+    $data = json_decode(file_get_contents("php://input"), true);
+
+    if (!$data) {
+        http_response_code(400);
+        echo json_encode(["message" => "Données JSON invalides"]);
+        return;
+    }
+
+    $required = ['nom', 'code', 'email', 'telephone', 'ville', 'pays'];
+    foreach ($required as $field) {
+        if (empty($data[$field])) {
+            http_response_code(400);
+            echo json_encode(["message" => "Le champ $field est requis"]);
+            return;
+        }
+    }
+
+    // Validation de l'email
+    if (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
+        http_response_code(400);
+        echo json_encode(["message" => "Format d'email invalide"]);
+        return;
+    }
+
+    // Connexion à la base de données
+    $database = new Database();
+    $db = $database->getConnexion();
+
+    $ecoleModel = new Ecole($db);
+
+    // Vérifier si l'email de l'école existe déjà
+    if ($ecoleModel->getByEmail($data['email'])) {
+        http_response_code(409);
+        echo json_encode(["message" => "Cet email d'école est déjà utilisé"]);
+        return;
+    }
+
+    try {
+        // Créer l'école
+        $ecoleData = [
+            'nom' => $data['nom'],
+            'email' => $data['email'],
+            'telephone' => $data['telephone'],
+            'code' => $data['code'],
+            'ville' => $data['ville'] ?? null,
+            'pays' => $data['pays'] ?? null
+        ];
+
+        $ecoleId = $ecoleModel->create($ecoleData);
+
+        if (!$ecoleId) {
+            throw new Exception("Erreur lors de la création de l'école");
+        }
+        /*
+        // Créer la personne administratrice de l'école
+        $personneModel = new Personne($db);
+        $personneData = [
+            'prenom' => $data['adminPrenom'] ?? '',
+            'nom' => $data['adminNom'] ?? 'Admin',
+            'email' => $data['email'],
+            'telephone' => $data['telephone'],
+            'type_personne' => 'admin_ecole',
+            'actif' => 1
+        ];
+
+        $personneId = $personneModel->create($personneData);
+
+        if (!$personneId) {
+            throw new Exception("Erreur lors de la création de la personne administratrice");
+        }
+        // Créer l'utilisateur administrateur
+        $utilisateurModel = new Utilisateur($db);
+        $hashedPassword = password_hash($data['motDePasse'], PASSWORD_DEFAULT);
+
+        $utilisateurData = [
+            'personne_id' => $personneId,
+            'mot_de_passe' => $hashedPassword,
+            'role' => 'admin_ecole',
+            'ecole_id' => $ecoleId
+        ];
+        $userId = $utilisateurModel->create($utilisateurData);
+        if (!$userId) {
+            throw new Exception("Erreur lors de la création de l'utilisateur administrateur");
+        }
+        http_response_code(201);
+        echo json_encode([
+            "message" => "École et compte administrateur créés avec succès",
+            "ecoleId" => $ecoleId,
+            "userId" => $userId,
+            "personneId" => $personneId
+        ]);
+        */
+
+    } catch (Exception $e) {
+        http_response_code(500);
+        echo json_encode(["message" => "Erreur serveur: " . $e->getMessage()]);
+        return;
+    }
+}
 
 ?>
