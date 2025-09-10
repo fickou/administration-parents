@@ -6,18 +6,300 @@
     <title>Contact - EcoleSpace</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-     <link rel="stylesheet" href="../../css/styles.css">
+    <style>
+        :root {
+            --primary-color: #3b82f6;
+            --secondary-color: #6366f1;
+            --success-color: #22c55e;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --background: #ffffff;
+            --card-background: #ffffff;
+            --border-color: #e2e8f0;
+        }
 
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--background);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        /* Navigation */
+        .navbar {
+            background-color: var(--card-background) !important;
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 0;
+        }
+
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            font-weight: 700;
+            color: var(--text-primary) !important;
+            font-size: 1.25rem;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: var(--primary-color);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .btn-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-link:hover {
+            color: var(--primary-color);
+            background-color: rgba(59, 130, 246, 0.1);
+        }
+
+        .btn-connexion, .btn-inscription {
+            padding: 8px 16px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            margin-left: 8px;
+        }
+
+        .btn-connexion {
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+            background: transparent;
+        }
+
+        .btn-connexion:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .btn-inscription {
+            background: var(--primary-color);
+            color: white;
+            border: 2px solid var(--primary-color);
+        }
+
+        .btn-inscription:hover {
+            background: #2563eb;
+            border-color: #2563eb;
+            transform: translateY(-2px);
+        }
+
+        /* Hero Section */
+        .hero-section {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 4rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 30%),
+                radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 30%),
+                radial-gradient(circle at 40% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 30%);
+        }
+
+        .hero-section .container {
+            position: relative;
+            z-index: 2;
+        }
+
+        .badge-secondary {
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.875rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .display-4 {
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+
+        .lead {
+            font-size: 1.125rem;
+            opacity: 0.95;
+        }
+
+        /* Form Styles */
+        .contact-card {
+            background: var(--card-background);
+            border-radius: 16px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            border: 1px solid var(--border-color);
+        }
+
+        .form-control {
+            border-radius: 8px;
+            border: 2px solid var(--border-color);
+            padding: 12px 16px;
+            transition: border-color 0.3s;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            border-color: var(--primary-color);
+            border-radius: 8px;
+            padding: 12px 24px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background: #2563eb;
+            border-color: #2563eb;
+            transform: translateY(-2px);
+        }
+
+        /* Contact Info Cards */
+        .contact-info-card {
+            background: var(--card-background);
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+
+        .contact-info-card:hover {
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            transform: translateY(-2px);
+        }
+
+        .icon-wrapper {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .icon-blue {
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--primary-color);
+        }
+
+        .icon-green {
+            background: rgba(34, 197, 94, 0.1);
+            color: var(--success-color);
+        }
+
+        /* Quick Contact Card */
+        .quick-contact-card {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 2rem;
+            border-radius: 16px;
+            margin-top: 2rem;
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            padding: 10px 20px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: white;
+            color: white;
+        }
+
+        /* FAQ Cards */
+        .faq-card {
+            background: var(--card-background);
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+
+        .faq-card:hover {
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            transform: translateY(-2px);
+        }
+
+        /* Alerts */
+        .alert-success {
+            background-color: rgba(34, 197, 94, 0.1);
+            border-color: var(--success-color);
+            color: #166534;
+            border-radius: 8px;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--card-background);
+            border-top: 1px solid var(--border-color);
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+
+        /* Shadow utilities */
+        .shadow-soft {
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-section {
+                padding: 3rem 0;
+            }
+            
+            .display-4 {
+                font-size: 2.5rem;
+            }
+
+            .d-flex.align-items-center {
+                flex-direction: column;
+                align-items: flex-start !important;
+                gap: 1rem;
+            }
+        }
+    </style>
 </head>
 <body>
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-light shadow-soft">
         <div class="container">
             <div class="d-flex align-items-center">
-                <a href="index.html" class="btn btn-link me-3">
-                    <i class="fas fa-arrow-left"></i> Retour
+                <a href="../../index.php" class="btn btn-link me-3">
+                    <i class="fas fa-arrow-left me-2"></i>Retour
                 </a>
-                <a class="navbar-brand d-flex align-items-center" href="index.html">
+                <a class="navbar-brand" href="../../index.php">
                     <div class="logo-icon me-2">
                         <i class="fas fa-graduation-cap"></i>
                     </div>
@@ -26,8 +308,8 @@
             </div>
             
             <div class="d-flex">
-                 <a href="login.php" class="btn-connexion">Connexion</a>
-                        <a href="register.php" class="btn-inscription">Inscription</a>
+                <a href="../authentification/login.php" class="btn-connexion">Connexion</a>
+                <a href="register.html" class="btn-inscription">Inscription</a>
             </div>
         </div>
     </nav>
@@ -36,8 +318,8 @@
     <section class="hero-section text-center">
         <div class="container">
             <span class="badge badge-secondary mb-4">Contactez-nous</span>
-            <h1 class="display-4 fw-bold mb-4">Nous sommes là pour vous aider</h1>
-            <p class="lead text-muted mx-auto" style="max-width: 600px;">
+            <h1 class="display-4 mb-4">Nous sommes là pour vous aider</h1>
+            <p class="lead mx-auto" style="max-width: 600px;">
                 Une question sur EcoleSpace ? Besoin d'une démonstration ? Notre équipe d'experts 
                 est à votre disposition pour vous accompagner dans votre projet.
             </p>
@@ -45,10 +327,12 @@
     </section>
 
     <!-- Success Message (initially hidden) -->
-    <div id="successAlert" class="alert alert-success alert-dismissible fade" role="alert" style="display: none;">
-        <i class="fas fa-check-circle me-2"></i>
-        <strong>Message envoyé !</strong> Nous vous répondrons dans les plus brefs délais.
-        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    <div class="container mt-4">
+        <div id="successAlert" class="alert alert-success alert-dismissible fade" role="alert" style="display: none;">
+            <i class="fas fa-check-circle me-2"></i>
+            <strong>Message envoyé !</strong> Nous vous répondrons dans les plus brefs délais.
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
     </div>
 
     <!-- Contact Form & Info -->
@@ -170,11 +454,11 @@
                             <i class="fas fa-building me-2"></i>
                             Vous représentez un établissement ?
                         </h5>
-                        <p class="mb-3" style="color: rgba(255, 255, 255, 0.9);">
+                        <p class="mb-3" style="opacity: 0.9;">
                             Demandez une démonstration personnalisée et découvrez comment EcoleSpace 
                             peut transformer la gestion de votre établissement.
                         </p>
-                        <button class="btn btn-secondary">Demander une démo</button>
+                        <button class="btn btn-secondary" onclick="requestDemo()">Demander une démo</button>
                     </div>
                 </div>
             </div>
@@ -182,7 +466,7 @@
     </section>
 
     <!-- FAQ -->
-    <section class="py-5" style="background-color: rgba(248, 250, 252, 0.3);">
+    <section class="py-5" style="background-color: rgba(248, 250, 252, 0.5);">
         <div class="container" style="max-width: 800px;">
             <div class="text-center mb-5">
                 <h2 class="display-5 fw-bold mb-3">Questions fréquentes</h2>
@@ -268,10 +552,30 @@
         document.getElementById('contactForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
-            // Récupération des données du formulaire
-            const formData = new FormData(this);
+            // Validation des champs
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const subject = document.getElementById('subject').value.trim();
+            const message = document.getElementById('message').value.trim();
             
-            // Simulation d'envoi (remplacer par un appel AJAX réel)
+            if (!name || !email || !subject || !message) {
+                alert('Veuillez remplir tous les champs obligatoires.');
+                return;
+            }
+            
+            // Validation email
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                alert('Veuillez entrer une adresse email valide.');
+                return;
+            }
+            
+            // Simulation d'envoi
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Envoi en cours...';
+            submitBtn.disabled = true;
+            
             setTimeout(function() {
                 // Affichage du message de succès
                 const successAlert = document.getElementById('successAlert');
@@ -284,6 +588,10 @@
                 // Réinitialisation du formulaire
                 document.getElementById('contactForm').reset();
                 
+                // Restaurer le bouton
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+                
                 // Masquer le message après 5 secondes
                 setTimeout(function() {
                     successAlert.classList.remove('show');
@@ -291,8 +599,21 @@
                         successAlert.style.display = 'none';
                     }, 150);
                 }, 5000);
-            }, 1000);
+            }, 2000);
         });
+
+        // Fonction pour demander une démo
+        function requestDemo() {
+            // Pré-remplir le formulaire pour une demande de démo
+            document.getElementById('subject').value = 'Demande de démonstration';
+            document.getElementById('message').value = 'Bonjour,\n\nJe souhaiterais planifier une démonstration d\'EcoleSpace pour notre établissement.\n\nMerci de me recontacter pour convenir d\'un rendez-vous.\n\nCordialement.';
+            
+            // Scroll vers le formulaire
+            document.getElementById('contactForm').scrollIntoView({ behavior: 'smooth' });
+            
+            // Focus sur le champ nom
+            document.getElementById('name').focus();
+        }
 
         // Animation des cartes au scroll
         const observerOptions = {
@@ -312,70 +633,30 @@
         // Appliquer l'animation aux cartes
         document.addEventListener('DOMContentLoaded', function() {
             const cards = document.querySelectorAll('.contact-info-card, .faq-card');
-            cards.forEach(card => {
+            cards.forEach((card, index) => {
                 card.style.opacity = '0';
                 card.style.transform = 'translateY(20px)';
                 card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-                observer.observe(card);
+                
+                // Animation décalée
+                setTimeout(() => {
+                    observer.observe(card);
+                }, index * 100);
+            });
+        });
+
+        // Validation en temps réel
+        document.querySelectorAll('.form-control').forEach(input => {
+            input.addEventListener('blur', function() {
+                if (this.checkValidity()) {
+                    this.classList.remove('is-invalid');
+                    this.classList.add('is-valid');
+                } else {
+                    this.classList.remove('is-valid');
+                    this.classList.add('is-invalid');
+                }
             });
         });
     </script>
-
-    <?php
-    // Traitement PHP pour l'envoi du formulaire
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        // Récupération et validation des données
-        $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRING);
-        $email = filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL);
-        $establishment = filter_input(INPUT_POST, 'establishment', FILTER_SANITIZE_STRING);
-        $subject = filter_input(INPUT_POST, 'subject', FILTER_SANITIZE_STRING);
-        $message = filter_input(INPUT_POST, 'message', FILTER_SANITIZE_STRING);
-        
-        $errors = [];
-        
-        // Validation
-        if (empty($name)) $errors[] = "Le nom est requis";
-        if (empty($email) || !$email) $errors[] = "Un email valide est requis";
-        if (empty($subject)) $errors[] = "Le sujet est requis";
-        if (empty($message)) $errors[] = "Le message est requis";
-        
-        if (empty($errors)) {
-            // Préparation de l'email
-            $to = "contact@ecolespace.fr";
-            $email_subject = "Nouveau message de contact: " . $subject;
-            $email_body = "Nom: $name\n";
-            $email_body .= "Email: $email\n";
-            if (!empty($establishment)) {
-                $email_body .= "Établissement: $establishment\n";
-            }
-            $email_body .= "Sujet: $subject\n\n";
-            $email_body .= "Message:\n$message";
-            
-            $headers = "From: $email\r\n";
-            $headers .= "Reply-To: $email\r\n";
-            $headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
-            
-            // Envoi de l'email
-            if (mail($to, $email_subject, $email_body, $headers)) {
-                $success_message = "Message envoyé avec succès !";
-            } else {
-                $error_message = "Erreur lors de l'envoi du message.";
-            }
-        } else {
-            $error_message = implode(", ", $errors);
-        }
-        
-        // Retour JSON pour AJAX
-        if (!empty($_POST['ajax'])) {
-            header('Content-Type: application/json');
-            if (isset($success_message)) {
-                echo json_encode(['success' => true, 'message' => $success_message]);
-            } else {
-                echo json_encode(['success' => false, 'message' => $error_message]);
-            }
-            exit;
-        }
-    }
-    ?>
 </body>
 </html>
