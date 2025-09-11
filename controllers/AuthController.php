@@ -25,9 +25,14 @@ function authRegister() {
         echo json_encode(["message" => "Les données du parent et de l'élève sont requises"]);
         return;
     }
+
     $parentData = $data['parent'];
+    $password = $data['mot_de_passe'] ?? null; // Récupérer le mot de passe
     $eleveData = $data['eleve'];
+    $professeurData = $data['professeur'] ?? null;
+    $administratifData = $data['administratif'] ?? null;
     $requiredFields = ['prenom', 'nom', 'telephone', 'type_personne'];
+
     foreach ($requiredFields as $field) {
         if (empty($parentData[$field]) || empty($eleveData[$field])) {
             http_response_code(400);
@@ -35,11 +40,15 @@ function authRegister() {
             return;
         }
     }
-    if (!filter_var($parentData['email'], FILTER_VALIDATE_EMAIL) || !filter_var($eleveData['email'], FILTER_VALIDATE_EMAIL)) {
-        http_response_code(400);
-        echo json_encode(["message" => "Format d'email invalide pour le parent ou l'élève"]);
-        return;
+
+    if (!empty($parentData['email'])) {
+            if (!filter_var($parentData['email'], FILTER_VALIDATE_EMAIL)) {
+            http_response_code(400);
+            echo json_encode(["message" => "Format d'email invalide pour le parent "]);
+            return;
+        }
     }
+
     $database = new Database();
     $db = $database->getConnexion();
     $personneModel = new Personne($db);
@@ -53,11 +62,6 @@ function authRegister() {
         echo json_encode(["message" => "Cet email de parent est déjà utilisé"]);
         return;
     }
-    if ($personneModel->getByEmail($eleveData['email'])) {
-        http_response_code(409);
-        echo json_encode(["message" => "Cet email d'élève est déjà utilisé"]);
-        return;
-    }
 
     try {
         // Créer la personne parent
@@ -65,9 +69,13 @@ function authRegister() {
         if (!$parentId) {
             throw new Exception("Erreur lors de la création de la personne parent");
         }
-        // Créer l'utilisateur parent avec un mot de passe temporaire
-        $tempPassword = bin2hex(random_bytes(4)); // Mot de passe temporaire de 8 caractères
-        $hashedPassword = password_hash($tempPassword, PASSWORD_DEFAULT);
+       
+        if (empty($password)) {
+            //empêcher la création si le mot de passe n'est pas fourni
+            throw new Exception("Le mot de passe du parent est requis");
+        }
+        
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
         $utilisateurData = [
             'personne_id' => $parentId,
             'mot_de_passe' => $hashedPassword,
@@ -79,7 +87,16 @@ function authRegister() {
             throw new Exception("Erreur lors de la création de l'utilisateur parent");
         }
         // Créer la personne élève
-        $eleveId = $personneModel->create($eleveData);
+        $personneEleveData = [
+            'prenom' => $eleveData['prenom'],
+            'nom' => $eleveData['nom'],
+            'telephone' => $eleveData['telephone'] ?? null,
+            'sexe' => $eleveData['sexe'] ?? null,
+            'date_naissance' => $eleveData['date_naissance'] ?? null,
+            'type_personne' => 'eleve',
+            'actif' => 1
+        ];
+        $eleveId = $personneModel->create($personneEleveData);
         if (!$eleveId) {
             throw new Exception("Erreur lors de la création de la personne élève");
         }
@@ -90,7 +107,8 @@ function authRegister() {
             'date_inscription' => $eleveData['date_inscription'] ?? date('Y-m-d'),
             'nationalite' => $eleveData['nationalite'] ?? null
         ];
-        if (!$eleveModel->create(array_merge(['id' => $eleveId], $eleveExtraData))) {
+
+        if (!$eleveModel->create($eleveId, $eleveExtraData)) {
             throw new Exception("Erreur lors de la création de l'élève");
         }
         // Lier le parent et l'élève
@@ -109,11 +127,16 @@ function authRegister() {
             "parent" => [
                 "id" => $parentId,
                 "email" => $parentData['email'],
-                "tempPassword" => $tempPassword // Retourner le mot de passe temporaire
+                "password" => $password 
             ],
             "eleve" => [
                 "id" => $eleveId,
-                "email" => $eleveData['email']
+                "prenom" => $eleveData['prenom'],
+                "nom" => $eleveData['nom'],
+                "date_inscription" => $eleveExtraData['date_inscription'],
+                "numero_matricule" => $eleveExtraData['numero_matricule'] ?? null,
+                "code_eleve" => $eleveExtraData['code_eleve'] ?? null,
+                "nationalite" => $eleveExtraData['nationalite'] ?? null
             ]
         ]);
 

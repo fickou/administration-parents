@@ -103,6 +103,13 @@ class Eleve {
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
+    //verifie le code élève
+    public function verifyCode($eleveId, $codeEleve) {
+        $stmt = $this->db->prepare("SELECT * FROM {$this->table} WHERE id = ? AND code_eleve = ?");
+        $stmt->execute([$eleveId, $codeEleve]);
+        return $stmt->fetch(PDO::FETCH_ASSOC) !== false;
+    }
+
     public function getClassHistory($eleveId) {
         $stmt = $this->db->prepare("
             SELECT ec.*, c.nom as classe_nom, n.nom as niveau_nom
