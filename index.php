@@ -666,7 +666,7 @@
                     
                     <div class="auth-buttons ms-4">
                         <a href="Views/authentification/login.php" class="btn-connexion">Connexion</a>
-                        <a href="register.php" class="btn-inscription">Inscription</a>
+                        <a href="Views/authentification/inscription.php" class="btn-inscription">Inscription</a>
                     </div>
                     
                     <button class="mobile-toggle ms-3" onclick="toggleMobileMenu()">

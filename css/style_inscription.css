@@ -1,0 +1,175 @@
+/* ============================= */
+/* Variables de couleur          */
+/* ============================= */
+:root {
+    --primary-color: #0066cc;
+    --primary-dark: #0056b3;
+    --secondary-color: #6c757d;
+    --success-color: #198754;
+    --danger-color: #dc3545;
+    --warning-color: #fd7e14;
+    --info-color: #0dcaf0;
+    --light-color: #f8f9fa;
+    --dark-color: #212529;
+    --gradient-primary: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+}
+
+/* ============================= */
+/* Base                          */
+/* ============================= */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--light-color);
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+}
+
+/* ============================= */
+/* Section Hero                  */
+/* ============================= */
+ .min-vh-100 d-flex{
+           background : linear-gradient(135deg, rgba(61, 4, 203, 0.3) 0%, rgba(234, 18, 205, 0.3) 100%),
+                url(../images/image_accueil.png);
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            position: relative;
+            overflow: hidden;
+        }
+   
+      
+.hero-overlay {
+    position: absolute;
+    top: 0; left: 0;
+    width: 90%; height: 100%;
+    background: linear-gradient(135deg, rgba(0, 102, 204, 0.9), rgba(0, 86, 179, 0.8));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 2rem;
+    color: white;
+}
+
+/* ============================= */
+/* Carte Formulaire              */
+/* ============================= */
+.card {
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    animation: fadeInUp 0.6s ease-out;
+    transition: all 0.3s ease;
+    width: 90%;        /* prend toute la largeur dispo */
+    max-width: 500px;   /* limite la largeur pour rester élégante */
+    margin: auto;       /* centre la carte */
+}
+
+
+.card:hover {
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px);
+}
+
+.card-header {
+    background: var(--gradient-primary) !important;
+    border-radius: 15px 15px 0 0 !important;
+    padding: 2rem 1.5rem;
+    border: none;
+}
+
+.card-title {
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+/* ============================= */
+/* Champs Formulaire             */
+/* ============================= */
+.form-control, 
+.form-select {
+    border-radius: 10px;
+    border: 2px solid #e9ecef;
+    padding: 0.75rem 1rem;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus, 
+.form-select:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(0, 102, 204, 0.25);
+    transform: translateY(-1px);
+}
+
+.form-label {
+    font-weight: 600;
+    color: var(--dark-color);
+    margin-bottom: 0.5rem;
+}
+
+/* ============================= */
+/* Boutons                       */
+/* ============================= */
+.btn {
+    border-radius: 10px;
+    font-weight: 600;
+    padding: 0.75rem 1.5rem;
+    transition: all 0.3s ease;
+    letter-spacing: 0.5px;
+}
+
+.btn-primary {
+    background: var(--gradient-primary);
+    border: none;
+    color: white;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, var(--primary-dark), #004494);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 102, 204, 0.3);
+}
+
+.btn-outline-secondary {
+    border: 2px solid var(--secondary-color);
+    color: var(--secondary-color);
+}
+
+.btn-outline-secondary:hover {
+    background-color: var(--secondary-color);
+    border-color: var(--secondary-color);
+    color: white;
+}
+
+/* ============================= */
+/* Messages                      */
+/* ============================= */
+.alert {
+    border-radius: 10px;
+    font-weight: 500;
+    margin-bottom: 1.5rem;
+}
+
+/* ============================= */
+/* Animation                     */
+/* ============================= */
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ============================= */
+/* Responsive                    */
+/* ============================= */
+@media (max-width: 768px) {
+    .hero-section { display: none !important; }
+    .card { margin: 1rem; border-radius: 10px; }
+    .card-header { padding: 1.5rem 1rem; }
+}
+
+@media (max-width: 576px) {
+    .row.mb-3 > .col-md-6 { margin-bottom: 1rem; }
+    .d-flex.gap-4 { gap: 1rem !important; }
+}

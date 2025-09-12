@@ -99,7 +99,7 @@
 
         .hero-section {
             background: 
-                linear-gradient(135deg, rgba(0, 39, 91, 0.6) 0%, rgba(152, 130, 204, 0.9) 100%),
+                linear-gradient(135deg, rgba(46, 120, 218, 0.6) 0%, rgba(227, 40, 211, 0.9) 100%),
                 url('../../images/image_accueil.png');
             background-size: cover;
             background-position: center;
@@ -130,7 +130,7 @@
         }
 
         .badge-secondary {
-            background-color: rgba(255, 255, 255, 0.2);
+            background-color: rgba(7, 40, 87, 0.2);
             color: white;
             padding: 0.5rem 1rem;
             border-radius: 50px;

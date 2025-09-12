@@ -22,7 +22,7 @@
         }
 
         .hero-section {
-           background : linear-gradient(135deg, rgba(36, 103, 211, 0.3) 0%, rgba(114, 26, 125, 0.3) 100%),
+           background : linear-gradient(135deg, rgba(61, 4, 203, 0.3) 0%, rgba(234, 18, 205, 0.3) 100%),
                 url(../../images/image_accueil.png);
             background-size: cover;
             background-position: center;
@@ -30,7 +30,15 @@
             position: relative;
             overflow: hidden;
         }
-
+   content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 30%),
+                radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 30%),
+                radial-gradient(circle at 40% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 30%);
+        }
         .hero-section::before {
             content: '';
             position: absolute;
