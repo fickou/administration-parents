@@ -102,13 +102,18 @@ function authRegister() {
         }
         // Créer l'élève
         $eleveExtraData = [
+            'personne_id' => $eleveId,
             'code_eleve' => $eleveData['code_eleve'] ?? null,
             'numero_matricule' => $eleveData['numero_matricule'] ?? null,
             'date_inscription' => $eleveData['date_inscription'] ?? date('Y-m-d'),
             'nationalite' => $eleveData['nationalite'] ?? null
         ];
 
-        if (!$eleveModel->create($eleveId, $eleveExtraData)) {
+        if ($eleveModel->verifyCode($eleveExtraData['code_eleve'])) {
+            throw new Exception("Le code élève fourni est déjà utilisé");
+        }
+
+        if (!$eleveModel->create($eleveExtraData)) {
             throw new Exception("Erreur lors de la création de l'élève");
         }
         // Lier le parent et l'élève

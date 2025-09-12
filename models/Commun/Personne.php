@@ -26,7 +26,6 @@ class Personne
             }
             // Valeurs par défaut
             $defaultData = [
-                'id' => $this->generateUuid(),
                 'cree_le' => date('Y-m-d H:i:s'),
                 'modifie_le' => date('Y-m-d H:i:s'),
                 'actif' => 1
@@ -38,7 +37,7 @@ class Personne
             $sql = "INSERT INTO {$this->table} ($fields) VALUES ($placeholders)";
             $stmt = $this->db->prepare($sql);
             if ($stmt->execute(array_values($personneData))) {
-                return $personneData['id'];
+                return $this->db->lastInsertId();
             }
             return false;
             

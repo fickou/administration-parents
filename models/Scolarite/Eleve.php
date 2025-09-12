@@ -8,20 +8,39 @@ class Eleve {
     }
 
     // CREATE
-    public function create($personneId, $data) {
-        $stmt = $this->db->prepare("
-            INSERT INTO {$this->table} 
-            (id, code_eleve, numero_matricule, date_inscription, nationalite) 
-            VALUES (?, ?, ?, ?, ?)
-        ");
-        
-        return $stmt->execute([
-            $personneId,
-            $data['code_eleve'] ?? null,
-            $data['numero_matricule'] ?? null,
-            $data['date_inscription'] ?? date('Y-m-d'),
-            $data['nationalite'] ?? null
-        ]);
+    public function create($data) {
+        try {
+            // Champs obligatoires
+            $required = ['code_eleve'];
+            foreach ($required as $field) {
+                if (empty($data[$field])) {
+                    throw new \Exception("Le champ $field est requis");
+                }
+            }
+
+            // Valeurs par défaut
+            $defaultData = [
+                'cree_le' => date('Y-m-d H:i:s'),
+            ];
+
+            // Fusionner les données
+            $eleveData = array_merge($defaultData, $data);
+
+            $fields = implode(', ', array_keys($eleveData));
+            $placeholders = implode(', ', array_fill(0, count($eleveData), '?'));
+
+            $sql = "INSERT INTO {$this->table} ($fields) VALUES ($placeholders)";
+            $stmt = $this->db->prepare($sql);
+
+            if ($stmt->execute(array_values($eleveData))) {
+                return $this->db->lastInsertId();
+            }
+
+            return false;
+        } catch (\Throwable $th) {
+            error_log("Erreur création élève: " . $th->getMessage());
+            return false;
+        }
     }
 
     // READ
@@ -104,9 +123,9 @@ class Eleve {
     }
 
     //verifie le code élève
-    public function verifyCode($eleveId, $codeEleve) {
-        $stmt = $this->db->prepare("SELECT * FROM {$this->table} WHERE id = ? AND code_eleve = ?");
-        $stmt->execute([$eleveId, $codeEleve]);
+    public function verifyCode($codeEleve) {
+        $stmt = $this->db->prepare("SELECT * FROM {$this->table} WHERE code_eleve = ?");
+        $stmt->execute([$codeEleve]);
         return $stmt->fetch(PDO::FETCH_ASSOC) !== false;
     }
 

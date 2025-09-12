@@ -14,7 +14,7 @@ class Utilisateur
     {
         try {
             // Champs obligatoires
-            $required = ['personne_id', 'mot_de_passe'];
+            $required = ['mot_de_passe'];
             foreach ($required as $field) {
                 if (empty($data[$field])) {
                     throw new Exception("Le champ $field est requis");
@@ -23,7 +23,6 @@ class Utilisateur
 
             // Valeurs par défaut
             $defaultData = [
-                'id' => $this->generateUuid(),
                 'role' => $data['role'] ?? 'parent',
                 'est_actif' => 1,
                 'email_verifie' => 0
@@ -39,7 +38,7 @@ class Utilisateur
             $stmt = $this->db->prepare($sql);
             
             if ($stmt->execute(array_values($utilisateurData))) {
-                return $utilisateurData['id'];
+                return $this->db->lastInsertId();
             }
             
             return false;

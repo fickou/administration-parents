@@ -11,7 +11,7 @@ class TuteurEleve {
     public function create($data) {
        try {
             // Champs obligatoires
-            $required = ['eleve_id', 'responsable_id', 'lien_parental', 'est_principal'];
+            $required = ['eleve_id', 'responsable_id'];
             foreach ($required as $field) {
                 if (empty($data[$field])) {
                     throw new \Exception("Le champ $field est requis");
@@ -32,7 +32,9 @@ class TuteurEleve {
             $sql = "INSERT INTO {$this->table} ($fields) VALUES ($placeholders)";
             $stmt = $this->db->prepare($sql);
 
-            return $stmt->execute(array_values($tuteurEleveData));
+            if ($stmt->execute(array_values($tuteurEleveData))) {
+                return $this->db->lastInsertId();
+            }
         } catch (\Throwable $th) {
             error_log("Erreur création lien tuteur-élève: " . $th->getMessage());
             return false;
