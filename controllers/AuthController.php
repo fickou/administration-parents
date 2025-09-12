@@ -56,36 +56,37 @@ function authRegister() {
     $eleveModel = new Eleve($db);
     $tuteurEleveModel = new TuteurEleve($db);
 
-    // Vérifier si les emails existent déjà
-    if ($personneModel->getByEmail($parentData['email'])) {
-        http_response_code(409);
-        echo json_encode(["message" => "Cet email de parent est déjà utilisé"]);
-        return;
-    }
 
     try {
-        // Créer la personne parent
-        $parentId = $personneModel->create($parentData);
-        if (!$parentId) {
-            throw new Exception("Erreur lors de la création de la personne parent");
+        if ($personneModel->getIdParent($parentData['email'], 'parent')) {
+           $parentId = $personneModel->getIdParent($parentData['email'], 'parent');
         }
-       
-        if (empty($password)) {
-            //empêcher la création si le mot de passe n'est pas fourni
-            throw new Exception("Le mot de passe du parent est requis");
+        else {
+            // Créer la personne parent
+             $parentId = $personneModel->create($parentData);
+
+             if (!$parentId) {
+                throw new Exception("Erreur lors de la création de la personne parent");
+            }
+        
+            if (empty($password)) {
+                //empêcher la création si le mot de passe n'est pas fourni
+                throw new Exception("Le mot de passe du parent est requis");
+            }
+            
+            $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+            $utilisateurData = [
+                'personne_id' => $parentId,
+                'mot_de_passe' => $hashedPassword,
+                'role' => 'parent',
+                'est_actif' => 1
+            ];
+            $userId = $utilisateurModel->create($utilisateurData);
+            if (!$userId) {
+                throw new Exception("Erreur lors de la création de l'utilisateur parent");
+            }
         }
         
-        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-        $utilisateurData = [
-            'personne_id' => $parentId,
-            'mot_de_passe' => $hashedPassword,
-            'role' => 'parent',
-            'est_actif' => 1
-        ];
-        $userId = $utilisateurModel->create($utilisateurData);
-        if (!$userId) {
-            throw new Exception("Erreur lors de la création de l'utilisateur parent");
-        }
         // Créer la personne élève
         $personneEleveData = [
             'prenom' => $eleveData['prenom'],
@@ -113,19 +114,19 @@ function authRegister() {
             throw new Exception("Le code élève fourni est déjà utilisé");
         }
 
-        if (!$eleveModel->create($eleveExtraData)) {
+        $eleve_Id = $eleveModel->create($eleveExtraData);
+        if (!$eleve_Id) {
             throw new Exception("Erreur lors de la création de l'élève");
         }
         // Lier le parent et l'élève
         $lienData = [
-            'eleve_id' => $eleveId,
+            'eleve_id' => $eleve_Id,
             'responsable_id' => $parentId,
             'lien_parental' => 'parent',
             'est_principal' => 1
         ];
-        if (!$tuteurEleveModel->create($lienData)) {
-            throw new Exception("Erreur lors de la création du lien tuteur-élève");
-        }
+        $tuteurEleveModel->create($lienData);
+
         http_response_code(201);
         echo json_encode([
             "message" => "Inscription réussie",
@@ -135,7 +136,7 @@ function authRegister() {
                 "password" => $password 
             ],
             "eleve" => [
-                "id" => $eleveId,
+                "id" => $eleve_Id,
                 "prenom" => $eleveData['prenom'],
                 "nom" => $eleveData['nom'],
                 "date_inscription" => $eleveExtraData['date_inscription'],
@@ -144,10 +145,18 @@ function authRegister() {
                 "nationalite" => $eleveExtraData['nationalite'] ?? null
             ]
         ]);
-
+    } catch (PDOException $e) {
+        http_response_code(500);
+        echo json_encode([
+            "message" => "Erreur serveur (BDD): " . $e->getMessage()
+        ]);
+        return;
     } catch (Exception $e) {
         http_response_code(500);
-        echo json_encode(["message" => "Erreur serveur: " . $e->getMessage()]);
+        echo json_encode([
+            "message" => "Erreur serveur: " . $e->getMessage()
+        ]);
+        return;
     }
 }
 

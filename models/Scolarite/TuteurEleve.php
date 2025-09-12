@@ -1,45 +1,42 @@
 <?php
 class TuteurEleve {
     private $db;
-    private $table = 'liens_responsable_eleve';
-
+    private $table = 'tuteur_eleve';
+    
     public function __construct($db) {
         $this->db = $db;
     }
 
     // CREATE
     public function create($data) {
-       try {
-            // Champs obligatoires
-            $required = ['eleve_id', 'responsable_id'];
-            foreach ($required as $field) {
-                if (empty($data[$field])) {
-                    throw new \Exception("Le champ $field est requis");
-                }
+        // Champs obligatoires
+        $required = ['eleve_id', 'responsable_id', 'est_principal'];
+        foreach ($required as $field) {
+            if (!isset($data[$field])) {
+                throw new \Exception("Le champ $field est requis");
             }
-
-            // Valeurs par défaut
-            $defaultData = [
-                'cree_le' => date('Y-m-d H:i:s')
-            ];
-
-            // Fusionner les données
-            $tuteurEleveData = array_merge($defaultData, $data);
-
-            $fields = implode(', ', array_keys($tuteurEleveData));
-            $placeholders = implode(', ', array_fill(0, count($tuteurEleveData), '?'));
-
-            $sql = "INSERT INTO {$this->table} ($fields) VALUES ($placeholders)";
-            $stmt = $this->db->prepare($sql);
-
-            if ($stmt->execute(array_values($tuteurEleveData))) {
-                return $this->db->lastInsertId();
-            }
-        } catch (\Throwable $th) {
-            error_log("Erreur création lien tuteur-élève: " . $th->getMessage());
-            return false;
         }
+
+        // Valeurs par défaut
+        $defaultData = [
+            'cree_le' => date('Y-m-d H:i:s'),
+            'lien_parental' => $data['lien_parental'] ?? 'parent'
+        ];
+
+        // Fusionner les données
+        $tuteurEleveData = array_merge($defaultData, $data);
+
+        $fields = implode(', ', array_keys($tuteurEleveData));
+        $placeholders = implode(', ', array_fill(0, count($tuteurEleveData), '?'));
+
+        $sql = "INSERT INTO {$this->table} ($fields) VALUES ($placeholders)";
+        $stmt = $this->db->prepare($sql);
+        $params = array_values($tuteurEleveData);
+
+        $stmt->execute($params);
+        return $this->db->lastInsertId();
     }
+
 
     // READ
     public function read($eleveId, $responsableId) {
@@ -98,6 +95,11 @@ class TuteurEleve {
     public function delete($eleveId, $responsableId) {
         $stmt = $this->db->prepare("DELETE FROM {$this->table} WHERE eleve_id = ? AND responsable_id = ?");
         return $stmt->execute([$eleveId, $responsableId]);
+    }
+
+    //errorInfo
+    public function errorInfo() {
+        return $this->db->errorInfo();
     }
 }
 ?>

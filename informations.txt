@@ -1,0 +1,46 @@
+eleves{
+    code_eleve: string
+    prenom: string
+    nom: string string
+    email: string
+    telephone: string
+    date_naissance: date
+    sexe: string
+    adresse: string
+    nationalite: string
+    classe: string
+    annee_scolaire: string
+}
+
+parents{
+    prenom: string
+    nom: string string
+    email: string
+    telephone: string
+    profession: string
+    sexe: string
+    adresse: string
+}
+
+professeurs{
+    prenom: string
+    nom: string string
+    email: string
+    telephone: string
+    date_naissance: date
+    sexe: string
+    adresse: string
+    nationalite: string
+    matricule: string
+    matiere: string
+    annee_scolaire: string
+    specialite: string
+}
+
+administrations{
+    prenom: string
+    nom: string string
+    email: string
+    telephone: string
+    mot_de_passe: string
+}

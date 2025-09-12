@@ -48,6 +48,23 @@ class Personne
         }
     }
 
+    // READ
+    public function read($id)
+    {
+        $sql = "SELECT * FROM {$this->table} WHERE id = ?";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([$id]);
+        return $stmt->fetch(\PDO::FETCH_ASSOC);
+    }
+
+    //DELETE
+    public function delete($id)
+    {
+        $sql = "DELETE FROM {$this->table} WHERE id = ?";
+        $stmt = $this->db->prepare($sql);
+        return $stmt->execute([$id]);
+    }
+
     public function getById($id)
     {
         $sql = "SELECT * FROM {$this->table} WHERE id = ?";
@@ -92,16 +109,13 @@ class Personne
         return $stmt->execute([$id]);
     }
 
-    private function generateUuid()
-    {
-        // Générer un UUID v4 compatible avec MySQL
-        return sprintf('%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
-            mt_rand(0, 0xffff), mt_rand(0, 0xffff),
-            mt_rand(0, 0xffff),
-            mt_rand(0, 0x0fff) | 0x4000,
-            mt_rand(0, 0x3fff) | 0x8000,
-            mt_rand(0, 0xffff), mt_rand(0, 0xffff), mt_rand(0, 0xffff)
-        );
+    //idenfiant du tuteur si email existe et type_personne=parent
+    public function getIdParent($email, $type){
+        $sql = "SELECT id FROM {$this->table} WHERE email = ? AND type_personne = ?";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([$email, $type]);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result ? $result['id'] : null;
     }
 }
 ?>
